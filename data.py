@@ -6,3 +6,7 @@ class Invalid_email_shows_error:
     invalid_mail = "invalid_email"
     password = "Password"
     mismatched_pass = "Miss_Password"
+
+class advertisement:
+    description = 'В идеальном состоянии. Самовывоз'
+    price = 5000 
