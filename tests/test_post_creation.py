@@ -2,23 +2,25 @@ from locators import *
 from urls import *
 from conftest import *
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import StaleElementReferenceException
+from helpers import *
 from data import advertisement
 
 
 class TestPostCreation:
-    def test_create_ad_unauthenticated_user_error(driver, open_main_page, wait):
+    def test_create_ad_unauthenticated_user_error(self, driver, open_main_page):
+        wait = get_wait(driver)
         driver.find_element(*BUTTON_CREATE_AD).click()
         assert driver.find_element(*NOTIFICATION_MODAL).is_displayed()
 
 
-    def test_create_ad_authenticated_user_success(driver, open_main_page, wait, login, generate_product_name):
-        product_name = generate_product_name
+    def test_create_ad_authenticated_user_success(self, driver, open_main_page, login):
+        wait = get_wait(driver)
+        product = generate_product_name()
         
         wait.until(EC.presence_of_element_located((BUTTON_CREATE_AD)))
         wait.until(EC.element_to_be_clickable(BUTTON_CREATE_AD)).click()
         
-        driver.find_element(*INPUT_TITLE).send_keys(product_name)
+        driver.find_element(*INPUT_TITLE).send_keys(product)
         driver.find_element(*INPUT_DESCRIPTION).send_keys(advertisement.description)
         driver.find_element(*INPUT_PRICE).send_keys(advertisement.price)
         

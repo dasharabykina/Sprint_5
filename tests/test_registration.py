@@ -1,12 +1,14 @@
 from locators import *
 from selenium.webdriver.support import expected_conditions as EC
 from data import Invalid_email_shows_error, Login_Exist_User
+from helpers import *
 
 
 class TestRegistration:
-    def test_successful_registration_with_valid_data(self, driver, open_main_page, wait, create_email,create_password):
-        email = create_email
-        password = create_password
+    def test_successful_registration_with_valid_data(self, driver, open_main_page):
+        wait = get_wait(driver)
+        email = create_email()
+        password = create_password()
         wait.until(EC.element_to_be_clickable(LOGIN_REGISTER_BUTTON)).click()
         wait.until(EC.element_to_be_clickable(NO_ACCOUNT_BUTTON)).click()
         wait.until(EC.visibility_of_element_located(EMAIL_INPUT)).send_keys(email)
@@ -17,7 +19,8 @@ class TestRegistration:
         user_icon = wait.until(EC.visibility_of_element_located(ICON_USER))
         assert user_name.rstrip('.') == "User" and user_icon.is_displayed()
 
-    def test_register_existing_user_shows_error(self, driver, open_main_page, wait):
+    def test_register_existing_user_shows_error(self, driver, open_main_page):
+        wait = get_wait(driver)
         wait.until(EC.element_to_be_clickable(LOGIN_REGISTER_BUTTON)).click()
         wait.until(EC.element_to_be_clickable(NO_ACCOUNT_BUTTON)).click()
 
@@ -30,7 +33,8 @@ class TestRegistration:
         assert error_msg.text.strip() == "Ошибка"
         
 
-    def test_registration_with_invalid_email_shows_error_message(self, driver, open_main_page, wait):
+    def test_registration_with_invalid_email_shows_error_message(self, driver, open_main_page):
+        wait = get_wait(driver)
         wait.until(EC.element_to_be_clickable(LOGIN_REGISTER_BUTTON)).click()
         wait.until(EC.element_to_be_clickable(NO_ACCOUNT_BUTTON)).click()
 
@@ -42,8 +46,9 @@ class TestRegistration:
         error_msg = wait.until(EC.visibility_of_element_located(LABEL_ERR))
         assert error_msg.text.strip() == "Ошибка"
 
-    def test_password_mismatch_shows_error(self, driver, open_main_page, wait, create_email):
-        email = create_email
+    def test_password_mismatch_shows_error(self, driver, open_main_page):
+        wait = get_wait(driver)
+        email = create_email()
         wait.until(EC.element_to_be_clickable(LOGIN_REGISTER_BUTTON)).click()
         wait.until(EC.element_to_be_clickable(NO_ACCOUNT_BUTTON)).click()
 
