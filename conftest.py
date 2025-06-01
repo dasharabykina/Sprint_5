@@ -14,9 +14,8 @@ import random
 @pytest.fixture
 def driver():
     options = Options()
-    service = Service (executable_path='D:\\WebDriver\\bin\\chromedriver.exe')
     options.add_argument('window-size=1920,1080')
-    driver = webdriver.Chrome(service = service, options = options)
+    driver = webdriver.Chrome(options = options)
     yield driver
     driver.quit()
 
